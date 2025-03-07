@@ -52,10 +52,28 @@
             max-height: 300px;
             overflow-y: auto;
             padding: 10px;
+            display: none;
         }
         .game-section {
             background: #ffe6f0;
             padding: 15px;
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+        .heart {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: red;
+            clip-path: path("M24 4.3c-2.9-2.9-7.6-2.9-10.6 0L12 5.7l-1.4-1.4C7.6 1.4 2.9 1.4 0 4.3c-2.9 2.9-2.9 7.6 0 10.6l1.4 1.4L12 27l10.6-10.6 1.4-1.4c2.9-2.9 2.9-7.6 0-10.6z");
+            cursor: pointer;
+            animation: float 3s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
         }
         footer {
             margin-top: 20px;
@@ -77,18 +95,6 @@
             <h2>💖 Fun Facts About Women 💖</h2>
             <button id="random-fact-btn">🔀 Show a Random Fact! 🔀</button>
             <p id="random-fact"></p>
-            <ul id="fun-facts" style="display: none;">
-                <li>Women blink more than men! 😉</li>
-                <li>The first computer programmer was a woman: Ada Lovelace! 💻</li>
-                <li>Women have a better sense of smell than men! 👃✨</li>
-                <li>Marie Curie was the first woman to win a Nobel Prize! 🏆</li>
-                <li>The world’s first novel was written by a woman: Murasaki Shikibu! 📖</li>
-                <li>Women’s hearts beat faster than men’s. ❤️</li>
-                <li>Amelia Earhart was the first woman to fly solo across the Atlantic! ✈️</li>
-                <li>Women have more taste buds than men! 👅</li>
-                <li>The longest reigning queen in history is Queen Elizabeth II. 👑</li>
-                <li>Women’s brains are more efficient at multitasking than men’s. 🧠✨</li>
-            </ul>
         </section>
         <section class="game-section">
             <h2>🎮 Fun Women's Day Game 🎮</h2>
@@ -101,9 +107,52 @@
         </footer>
     </div>
     <script>
-        document.getElementById("random-fact-btn").addEventListener("click", function() {
-            document.getElementById("fun-facts").style.display = "block";
+        document.getElementById("celebrate-btn").addEventListener("click", function() {
+            alert("🎊 Happy Women's Day! 🎊");
         });
+
+        const facts = [
+            "Women blink more than men! 😉",
+            "The first computer programmer was a woman: Ada Lovelace! 💻",
+            "Women have a better sense of smell than men! 👃✨",
+            "Marie Curie was the first woman to win a Nobel Prize! 🏆",
+            "The world’s first novel was written by a woman: Murasaki Shikibu! 📖",
+            "Women’s hearts beat faster than men’s. ❤️",
+            "Amelia Earhart was the first woman to fly solo across the Atlantic! ✈️",
+            "Women have more taste buds than men! 👅",
+            "The longest reigning queen in history is Queen Elizabeth II. 👑",
+            "Women’s brains are more efficient at multitasking than men’s. 🧠✨"
+        ];
+
+        document.getElementById("random-fact-btn").addEventListener("click", function() {
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            document.getElementById("random-fact").textContent = facts[randomIndex];
+        });
+
+        // Game Logic
+        const gameArea = document.getElementById("game-area");
+        const scoreDisplay = document.getElementById("score");
+        let score = 0;
+
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.style.left = Math.random() * 90 + "%";
+            heart.style.top = Math.random() * 90 + "%";
+            gameArea.appendChild(heart);
+
+            heart.addEventListener("click", function () {
+                score++;
+                scoreDisplay.textContent = score;
+                heart.remove();
+            });
+
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        }
+
+        setInterval(createHeart, 1000);
     </script>
 </body>
 </html>
